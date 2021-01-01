@@ -2,6 +2,6 @@
   "name": "IF-Airport-Dbase",
   "version": "1.0.0",
   "dependencies": {
-
+    "glob": "latest"
   }
 }
