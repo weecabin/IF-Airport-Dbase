@@ -10,13 +10,15 @@ let myRunwayDbase =
   [{rwy:0,lat:0,lon:0}]
 }];
 
+/*
 let initel=myRunwayDbase.filter(el=>el.icao=="init");
 initel[0].rwys.push({rwy:18,lat:1,lon:1})
 initel[0].rwys.push({rwy:9,lat:2,lon:3})
+*/
 
 //myAirports.filter(element=>element.icao==icao)
 
-console.log(JSON.stringify(myRunwayDbase,null,1))
+//console.log(JSON.stringify(myRunwayDbase,null,1))
 //myRunwayDbase.push({icao:"test",rwy:28,lat:32.2,lon:-117.1})
 
 //console.log(JSON.stringify(myRunwayDbase,null,1))
@@ -31,13 +33,13 @@ console.log(JSON.stringify(myRunwayDbase,null,1))
 
 //const dirname="../../IF AIRPORTS57D91B4C-B772-493D-8F1B-22699D0CA6DD/src/Zimbabwe";
 
-//const dirname="../../IF AIRPORTS57D91B4C-B772-493D-8F1B-22699D0CA6DD/src/United States";
+const dirname="../../IF AIRPORTS57D91B4C-B772-493D-8F1B-22699D0CA6DD/src/United States";
 
 //const dirname="../../IF AIRPORTS57D91B4C-B772-493D-8F1B-22699D0CA6DD/src";
 
-/* remove "   //    " from the line below 
-glob(dirname + '/**/  //   *.dat', {}, (err, files)=>
-/*
+// remove "   //    " from the line below 
+glob(dirname + '/**/*.dat', {}, (err, files)=>
+
 {
   //console.log(files)
   let file;
@@ -46,12 +48,13 @@ glob(dirname + '/**/  //   *.dat', {}, (err, files)=>
   try 
   {
     let data = fs.readFileSync(file, 'utf8');
-    console.log(data)
+    //console.log(data)
     let spl=data.split("\n");
     let icaostr;
     let rwynum;
     let rwylatnum;
     let rwylonnum;
+    let temp;
     let finished=false;
     for (i=0;i<spl.length && !finished;i++)
     {
@@ -63,15 +66,27 @@ glob(dirname + '/**/  //   *.dat', {}, (err, files)=>
       {
         case "1":
         icaostr=linesplit[4];
+        temp={icao:icaostr,rwys:[]}
         //console.log(linesplit)
         break;
         
         case "100":
-        rwynum= linesplit[8];
-        rwylatnum= linesplit[9];
-        rwylonnum= linesplit[10]
-        console.log(linesplit)
-        myRunwayDbase.push({icao:icaostr,rwy:rwynum,lat:rwylatnum,lon:rwylonnum});
+        //console.log(linesplit)
+        if (linesplit.length>=20)
+        {
+          temp.rwys.push({rwy: linesplit[8],lat: Number(linesplit[9]).toFixed(6),lon: Number(linesplit[10]).toFixed(6)});
+          temp.rwys.push({rwy: linesplit[17],lat: Number(linesplit[18]).toFixed(6),lon: Number(linesplit[19]).toFixed(6)});
+        }
+        break;
+        
+        case "110":
+        if (temp!=undefined && temp.rwys.length>0) 
+        {
+          //console.log(icaostr)
+          myRunwayDbase.push(temp);
+        }
+        //if (temp.rwys.length==1)
+        //  console.log(data)
         finished=true;
         break;
       }
@@ -79,9 +94,10 @@ glob(dirname + '/**/  //   *.dat', {}, (err, files)=>
   } 
   catch (err) 
   {
+    console.log("Error in: "+file)
     console.error(err)
   }
   }
-  console.log(JSON.stringify(myRunwayDbase,null,1))
+  console.log("Complete")
+  //console.log(JSON.stringify(myRunwayDbase,null,1))
 })
-*/
