@@ -33,9 +33,9 @@ initel[0].rwys.push({rwy:9,lat:2,lon:3})
 
 //const dirname="../../IF AIRPORTS57D91B4C-B772-493D-8F1B-22699D0CA6DD/src/Zimbabwe";
 
-const dirname="../../IF AIRPORTS57D91B4C-B772-493D-8F1B-22699D0CA6DD/src/United States";
+//const dirname="../../IF AIRPORTS57D91B4C-B772-493D-8F1B-22699D0CA6DD/src/United States";
 
-//const dirname="../../IF AIRPORTS57D91B4C-B772-493D-8F1B-22699D0CA6DD/src";
+const dirname="../../IF AIRPORTS57D91B4C-B772-493D-8F1B-22699D0CA6DD/src";
 
 // remove "   //    " from the line below 
 glob(dirname + '/**/*.dat', {}, (err, files)=>
@@ -98,6 +98,6 @@ glob(dirname + '/**/*.dat', {}, (err, files)=>
     console.error(err)
   }
   }
-  console.log("Complete")
-  //console.log(JSON.stringify(myRunwayDbase,null,1))
+  console.log("Completed")
+  fs.writeFileSync("RunwayDB.json",JSON.stringify(myRunwayDbase))
 })
